@@ -1,0 +1,22 @@
+// Created by max on 12.12.14.
+
+extends layout
+
+block meta
+    meta(name="viewport", content="initial-scale=1.0, user-scalable=no")
+
+block scripts
+    script(src="/socket.io/socket.io.js")
+    script(src="/javascripts/control.js")
+
+block content
+  div.entry
+    h1= title
+    p Welcome to #{title}
+    div.connectBox
+      form.entryForm(name="connect", action="/mobile", method="post")
+        input(type="text", name="code")
+        input(type="submit", value="GO")
+  div.control
+    div.garden
+    div.ball

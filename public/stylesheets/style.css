@@ -1,0 +1,35 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.entry {
+    visibility: visible;
+}
+
+.game, .control {
+    visibility: hidden;
+}
+
+.garden {
+    position: relative;
+    width : 200px;
+    height: 200px;
+    border: 5px solid #CCC;
+    border-radius: 10px;
+    margin: 30px auto 0px auto;
+}
+
+.ball {
+    position: absolute;
+    top : 90px;
+    left : 90px;
+    width : 20px;
+    height: 20px;
+    background: green;
+    border-radius: 100%;
+}

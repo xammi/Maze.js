@@ -1,0 +1,15 @@
+extends layout
+
+block scripts
+    script(src="/socket.io/socket.io.js")
+    script(src="/javascripts/game.js")
+
+block content
+  div.entry
+    h1= title
+    p Welcome to #{title}
+    div.code
+      p Your code is
+      h3.codeValue #{code}
+  div.game
+    canvas#gameCanvas(width="300", height="300")
