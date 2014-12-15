@@ -3,11 +3,11 @@
  */
 
 $(document).ready(function () {
-    //var socket = io.connect('http://192.168.43.149:3000');
-    var socket = io.connect('http://localhost:3000');
-
     $('.entryForm').submit(function (event) {
         event.preventDefault();
+
+        var socket = io.connect('http://192.168.43.149:3000');
+//        var socket = io.connect('http://localhost:3000');
 
         socket.on('start', function () {
             $('.entry').css('display', 'none');
