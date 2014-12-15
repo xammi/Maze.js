@@ -26,7 +26,12 @@ io.sockets.on('connection', function (socket) {
             if (gameSocket !== undefined) {
                 delete sessions[opts.code];
                 sessions[socket.ID] = gameSocket;
+
                 gameSocket.emit('start');
+                socket.emit('start');
+            }
+            else {
+                socket.emit('client-error', {msg: 'Wrong code'});
             }
         }
     });

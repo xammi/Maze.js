@@ -8,20 +8,35 @@ a {
 }
 
 .entry {
-    visibility: visible;
+    display: block;
 }
 
 .game, .control {
-    visibility: hidden;
+    display: none;
 }
 
+#gameCanvas {
+    margin: auto;
+    border: 1px solid black;
+}
+
+.error {
+    display: none;
+    color: #ff0000;
+    font-size: 16px;
+    margin: 5px;
+}
+
+svg:not(:root) {
+    display:block;
+}
 .garden {
     position: relative;
     width : 200px;
     height: 200px;
+    margin: auto;
     border: 5px solid #CCC;
     border-radius: 10px;
-    margin: 30px auto 0px auto;
 }
 
 .ball {

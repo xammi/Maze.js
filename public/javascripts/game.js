@@ -8,14 +8,20 @@ var Sphere = {
     radius: 40,
 
     move: function () {
-        this.X += this.dX;
-        this.Y += this.dY;
+        var newX = this.X + this.dX;
+        var newY = this.Y + this.dY;
+
+        if (newX - this.radius > 0 && newX + this.radius < 900)
+            this.X = newX;
+
+        if (newY - this.radius > 0 && newY + this.radius < 600)
+            this.Y = newY;
     },
 
     draw: function (context, color) {
         context.beginPath();
 
-        context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
+        context.arc(this.X, this.Y, this.radius, 0, 2 * Math.PI, false);
         context.fillStyle = color;
         context.fill();
 
@@ -27,26 +33,28 @@ var Sphere = {
 
 $(document).ready(function () {
     var code = $('.codeValue').text();
-    var socket = io.connect('http://localhost:3000');
-    socket.emit('init', {platform: 'desktop', code: code});
+    var socket = io.connect('http://127.0.0.1:3000');
 
     var canvas = document.getElementById('gameCanvas');
     var context = canvas.getContext('2d');
     var color = '#ff0000';
 
     socket.on('start', function () {
-        $('.entry').css('visibility', 'hidden');
-        $('.game').css('visibility', 'visible');
-        Sphere.draw(context, color);
+        $('.entry').css('display', 'none');
+        $('.game').css('display', 'block');
+
+        setInterval(function () {
+            Sphere.draw(context, '#ffffff');
+            Sphere.move();
+            Sphere.draw(context, color);
+        }, 40);
     });
 
     socket.on('control', function (data) {
+        // console.log(data);
         Sphere.dX = data.X;
         Sphere.dY = data.Y;
     });
 
-    setInterval(function () {
-        Sphere.move();
-        Sphere.draw(context, color);
-    }, 1000);
+    socket.emit('init', {platform: 'desktop', code: code});
 });
