@@ -3,15 +3,15 @@
  */
 
 $(document).ready(function () {
-    var socket = io.connect('http://192.168.43.149:3000');
-    //var socket = io.connect('http://localhost:3000');
+    //var socket = io.connect('http://192.168.43.149:3000');
+    var socket = io.connect('http://localhost:3000');
 
     $('.entryForm').submit(function (event) {
-        $('.error').css('display', 'none');
         event.preventDefault();
 
         socket.on('start', function () {
             $('.entry').css('display', 'none');
+            $('.error').css('display', 'none');
             $('.control').css('display', 'block');
 
             var ball = $('.ball');
@@ -43,6 +43,15 @@ $(document).ready(function () {
         socket.on('client-error', function (data) {
             var divError = $('.error');
             divError.html(data.msg);
+            divError.fadeIn('slow').delay(10000).fadeOut('slow');
+        });
+
+        socket.on('disconnect', function () {
+            $('.control').css('display', 'none');
+            $('.entry').css('display', 'block');
+
+            var divError = $('.error');
+            divError.html('Disconnected');
             divError.fadeIn('slow').delay(10000).fadeOut('slow');
         });
 

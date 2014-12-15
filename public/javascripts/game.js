@@ -41,6 +41,7 @@ $(document).ready(function () {
 
     socket.on('start', function () {
         $('.entry').css('display', 'none');
+        $('.error').css('display', 'none');
         $('.game').css('display', 'block');
 
         setInterval(function () {
@@ -54,6 +55,15 @@ $(document).ready(function () {
         // console.log(data);
         Sphere.dX = data.X;
         Sphere.dY = data.Y;
+    });
+
+    socket.on('disconnect', function () {
+        $('.game').css('display', 'none');
+        $('.entry').css('display', 'block');
+
+        var divError = $('.error');
+        divError.html('Disconnected');
+        divError.fadeIn('slow').delay(10000).fadeOut('slow');
     });
 
     socket.emit('init', {platform: 'desktop', code: code});

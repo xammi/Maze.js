@@ -23,9 +23,9 @@ io.sockets.on('connection', function (socket) {
         else if (opts.platform == 'mobile') {
             var gameSocket = sessions[opts.code];
 
-            if (gameSocket !== undefined) {
+            if (typeof gameSocket != 'undefined') {
                 delete sessions[opts.code];
-                sessions[socket.ID] = gameSocket;
+                sessions[socket.id] = gameSocket;
 
                 gameSocket.emit('start');
                 socket.emit('start');
@@ -37,7 +37,32 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('control', function (data) {
-        var gameSocket = sessions[socket.ID];
-        gameSocket.emit('control', data);
+        var gameSocket = sessions[socket.id];
+        if (typeof gameSocket != 'undefined') {
+            gameSocket.emit('control', data);
+        }
+    });
+
+    socket.on('disconnect', function () {
+        for (var session in sessions)
+            if (sessions.hasOwnProperty(session)) {
+                var gameSocket = sessions[session];
+
+                if (socket.id === session) {
+                    if (typeof gameSocket != 'undefined') {
+                        gameSocket.disconnect();
+                    }
+                    delete sessions[session];
+                    return;
+                }
+                if (socket.id === gameSocket.id) {
+                    var clientSocket = io.sockets.connected[session];
+                    if (typeof clientSocket != 'undefined') {
+                        clientSocket.disconnect();
+                    }
+                    delete sessions[session];
+                    return;
+                }
+            }
     });
 });
