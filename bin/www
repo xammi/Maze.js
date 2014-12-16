@@ -36,12 +36,17 @@ io.sockets.on('connection', function (socket) {
         }
     });
 
-    socket.on('control', function (data) {
-        var gameSocket = sessions[socket.id];
-        if (typeof gameSocket != 'undefined') {
-            gameSocket.emit('control', data);
-        }
-    });
+    var gameSender = function (event) {
+        return function (data) {
+            var gameSocket = sessions[socket.id];
+            if (typeof gameSocket != 'undefined') {
+                gameSocket.emit(event, data);
+            }
+        };
+    };
+
+    socket.on('control', gameSender('control'));
+    socket.on('set color', gameSender('set color'));
 
     socket.on('disconnect', function () {
         for (var session in sessions)

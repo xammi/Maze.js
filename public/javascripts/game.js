@@ -6,6 +6,7 @@ var Sphere = {
     X: 100, Y: 100,
     dX: 0, dY: 0,
     radius: 40,
+    color: '#ff0000',
 
     move: function () {
         var newX = this.X + this.dX;
@@ -18,7 +19,9 @@ var Sphere = {
             this.Y = newY;
     },
 
-    draw: function (context, color) {
+    draw: function (context, extColor) {
+        var color = extColor || this.color;
+
         context.beginPath();
 
         context.arc(this.X, this.Y, this.radius, 0, 2 * Math.PI, false);
@@ -28,6 +31,10 @@ var Sphere = {
         context.lineWidth = 2;
         context.strokeStyle = color;
         context.stroke();
+    },
+
+    setColor: function (color) {
+        this.color = color;
     }
 };
 
@@ -47,7 +54,7 @@ $(document).ready(function () {
         setInterval(function () {
             Sphere.draw(context, '#ffffff');
             Sphere.move();
-            Sphere.draw(context, color);
+            Sphere.draw(context);
         }, 40);
     });
 
@@ -55,6 +62,10 @@ $(document).ready(function () {
         // console.log(data);
         Sphere.dX = data.X;
         Sphere.dY = data.Y;
+    });
+
+    socket.on('set color', function (data) {
+        Sphere.setColor(data.color);
     });
 
     socket.on('disconnect', function () {
