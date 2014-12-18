@@ -14,20 +14,27 @@ function contains(element, point) {
 }
 
 function orientation() {
+    var ball = $('.ball');
+    var color = '#000000';
+
     var orHandler = function (event) {
-        event.preventDefault();
+        if (color == '#000000')
+            color = '#ff0000';
+        else if (color == '#ff0000')
+            color = '#000000';
+        ball.css('background-color', color);
     };
     window.addEventListener('orientationchange', orHandler);
 }
 
-function hyroscope(external) {
+function gyroscope(external) {
     var ball = $('.ball');
     var garden = $('.garden');
 
     var maxX = garden.width() - ball.width();
     var maxY = garden.height() - ball.height();
 
-    var hyroHandler = function (event) {
+    var gyroHandler = function (event) {
         var X = event.beta; // [-180,180]
         var Y = event.gamma; // [-90,90]
 
@@ -42,7 +49,7 @@ function hyroscope(external) {
 
         external(X, Y);
     };
-    window.addEventListener('deviceorientation', hyroHandler);
+    window.addEventListener('deviceorientation', gyroHandler);
 }
 
 function toucher(external) {
@@ -82,7 +89,7 @@ $(document).ready(function () {
             $('.error').css('display', 'none');
             $('.control').css('display', 'block');
 
-            hyroscope(function (X, Y) {
+            gyroscope(function (X, Y) {
                 socket.emit('control', {X: X, Y: Y});
             });
 

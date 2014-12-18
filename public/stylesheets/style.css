@@ -45,7 +45,7 @@ svg:not(:root) {
     left : 90px;
     width : 20px;
     height: 20px;
-    background: black;
+    background-color: #000000;
     border-radius: 100%;
 }
 
