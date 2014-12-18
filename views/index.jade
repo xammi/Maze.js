@@ -1,0 +1,18 @@
+// Created by max on 18.12.14.
+
+extends layout
+
+block scripts
+  script(src="/mobile-detect/mobile-detect.js")
+  script(src="/javascripts/detect.js")
+
+block content
+  div.detect
+  div.select
+    h1 #{title}
+    br
+    h3 Entry point for ... &nbsp;
+      a(href="/desktop") Desktop
+    br
+    h3 Entry point for ... &nbsp;
+      a(href="/mobile") Mobile
