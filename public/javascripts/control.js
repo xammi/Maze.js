@@ -13,6 +13,13 @@ function contains(element, point) {
     return false;
 }
 
+function orientation() {
+    var orHandler = function (event) {
+        event.preventDefault();
+    };
+    window.addEventListener('orientationchange', orHandler);
+}
+
 function hyroscope(external) {
     var ball = $('.ball');
     var garden = $('.garden');
@@ -82,6 +89,8 @@ $(document).ready(function () {
             toucher(function (color) {
                 socket.emit('set color', {color: color});
             });
+
+            orientation();
         });
 
         socket.on('client-error', function (data) {
