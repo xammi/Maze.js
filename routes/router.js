@@ -11,6 +11,10 @@ var generateCode = function (length) {
     return code;
 };
 
+router.get('/', function(req, res) {
+    res.render('index', { title: 'Entry selection:' });
+});
+
 router.get('/desktop', function(req, res) {
     var newCode = generateCode(4);
     res.render('desktop', { title: 'Start page', code: newCode });
